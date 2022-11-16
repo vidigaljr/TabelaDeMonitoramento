@@ -1,8 +1,4 @@
 <div class="layout-topbar">
-    <a class="layout-topbar-logo" routerLink="">
-        <img src="assets/layout/images/{{layoutService.config.colorScheme === 'light' ? 'logo-dark' : 'logo-white'}}.svg" alt="logo">
-        <span>SAKAI</span>
-    </a>
 
     <button #menubutton class="p-link layout-menu-button layout-topbar-button" (click)="layoutService.onMenuToggle()">
         <i class="pi pi-bars"></i>
@@ -17,13 +13,10 @@
             <i class="pi pi-calendar"></i>
             <span>Calendar</span>
         </button>
-        <button class="p-link layout-topbar-button">
+        <button  class="p-link layout-topbar-button">
             <i class="pi pi-user"></i>
             <span>Profile</span>
         </button>
-        <button class="p-link layout-topbar-button" [routerLink]="'/documentation'">
-            <i class="pi pi-cog"></i>
-            <span>Settings</span>
-        </button>
+        <button type="button" [routerLink]="['/auth/login']" class="btn btn-outline-primary">Login</button>
     </div>
 </div>

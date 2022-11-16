@@ -4,6 +4,8 @@ import { CustomerService } from 'src/app/demo/service/customer.service';
 import { Product } from 'src/app/demo/api/product';
 import { ProductService } from 'src/app/demo/service/product.service';
 import { Table } from 'primeng/table';
+import { Subscription } from 'rxjs';
+import { LayoutService } from 'src/app/layout/service/app.layout.service';
 import { MessageService, ConfirmationService } from 'primeng/api';
 
 interface expandedRows {
@@ -46,7 +48,11 @@ export class TableDemoComponent implements OnInit {
 
     @ViewChild('filter') filter!: ElementRef;
 
-    constructor(private customerService: CustomerService, private productService: ProductService) { }
+    constructor(private customerService: CustomerService, private productService: ProductService, public layoutService: LayoutService) {
+        this.subscription = this.layoutService.configUpdate$.subscribe(config => {
+            this.initCharts();
+        });
+     }
 
     ngOnInit() {
         this.customerService.getCustomersLarge().then(customers => {
@@ -81,6 +87,8 @@ export class TableDemoComponent implements OnInit {
             { label: 'Renewal', value: 'renewal' },
             { label: 'Proposal', value: 'proposal' }
         ];
+
+        this.initCharts();
     }
 
     onSort() {
@@ -135,4 +143,102 @@ export class TableDemoComponent implements OnInit {
         this.filter.nativeElement.value = '';
     }
     
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    
+    lineData: any;
+
+    barData: any;
+
+    pieData: any;
+
+    polarData: any;
+
+    radarData: any;
+
+    lineOptions: any;
+
+    barOptions: any;
+
+    pieOptions: any;
+
+    polarOptions: any;
+
+    radarOptions: any;
+
+    subscription: Subscription;
+
+
+
+
+    initCharts() {
+        const documentStyle = getComputedStyle(document.documentElement);
+        const textColor = documentStyle.getPropertyValue('--text-color');
+        this.pieData = {
+            labels: ['A', 'B', 'C'],
+            datasets: [
+                {
+                    data: [540, 325, 702],
+                    backgroundColor: [
+                        documentStyle.getPropertyValue('--indigo-500'),
+                        documentStyle.getPropertyValue('--purple-500'),
+                        documentStyle.getPropertyValue('--teal-500')
+                    ],
+                    hoverBackgroundColor: [
+                        documentStyle.getPropertyValue('--indigo-400'),
+                        documentStyle.getPropertyValue('--purple-400'),
+                        documentStyle.getPropertyValue('--teal-400')
+                    ]
+                }]
+        };
+
+        this.pieOptions = {
+            plugins: {
+                legend: {
+                    labels: {
+                        usePointStyle: true,
+                        color: textColor
+                    }
+                }
+            }
+        };
+
+    }
+
+    ngOnDestroy() {
+        if (this.subscription) {
+            this.subscription.unsubscribe();
+        }
+    }
 }

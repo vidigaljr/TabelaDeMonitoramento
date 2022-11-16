@@ -29,6 +29,8 @@ export class CrudComponent implements OnInit {
     statuses: any[] = [];
 
     rowsPerPageOptions = [5, 10, 20];
+    
+    uploadedFiles: any[] = [];
 
     constructor(private productService: ProductService, private messageService: MessageService) { }
 
@@ -137,5 +139,14 @@ export class CrudComponent implements OnInit {
 
     onGlobalFilter(table: Table, event: Event) {
         table.filterGlobal((event.target as HTMLInputElement).value, 'contains');
+    }
+
+    
+    onUpload(event: any) {
+        for (const file of event.files) {
+            this.uploadedFiles.push(file);
+        }
+
+        this.messageService.add({ severity: 'info', summary: 'Success', detail: 'File Uploaded' });
     }
 }

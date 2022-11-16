@@ -11,7 +11,6 @@
                 </ng-template>
 
                 <ng-template pTemplate="right">
-                    <p-fileUpload mode="basic" accept="image/*" [maxFileSize]="1000000" label="Import" chooseLabel="Import" class="mr-2 inline-block"></p-fileUpload>
                     <button pButton pRipple label="Export" icon="pi pi-upload" class="p-button-help" (click)="dt.exportCSV()"></button>
                 </ng-template>
             </p-toolbar>
@@ -92,6 +91,17 @@
                 <div class="field">
                     <label for="description">Description</label>
                     <textarea id="description" pInputTextarea [(ngModel)]="product.description" required rows="3" cols="20"></textarea>
+                </div>
+
+                <div class="field">
+                    <p-fileUpload name="demo[]" url="assets/demo/images/product/" (onUpload)="onUpload($event)"
+                                    [multiple]="true" accept="image/*" [maxFileSize]="1000000">
+                        <ng-template pTemplate="content">
+                            <ul *ngIf="uploadedFiles.length">
+                                <li *ngFor="let file of uploadedFiles">{{file.name}} - {{file.size}} bytes</li>
+                            </ul>
+                        </ng-template>
+                    </p-fileUpload>
                 </div>
 
                 <div class="field">
